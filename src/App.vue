@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     Major Runner
+    <router-view></router-view>
   </div>
 </template>
 
