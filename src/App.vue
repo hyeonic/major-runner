@@ -1,14 +1,25 @@
 <template>
   <div id="app">
-    Major Runner
-    <router-view></router-view>
+    <app-header></app-header>
+    <router-view class="section"></router-view>
   </div>
 </template>
 
 <script>
+import AppHeader from '@/components/common/AppHeader.vue';
+
 export default {
   name: 'App',
+  components: {
+    AppHeader,
+  },
 };
 </script>
 
-<style></style>
+<style>
+@import './css/reset.css';
+
+.section {
+  padding: 1rem;
+}
+</style>
