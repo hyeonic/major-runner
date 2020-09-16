@@ -1,14 +1,17 @@
 <template>
   <header>
     <div class="header-container">
+      <div class="ham"></div>
       <div class="logo">
         <router-link to="/main">MajorRunner</router-link>
       </div>
-      <span class="user-state" @click="modalControll"
-        ><font-awesome-icon
+      <span class="user-state">
+        <font-awesome-icon
+          @click="modalControll"
           :icon="['far', 'user']"
           :style="{ color: '#2699fb' }"
-      /></span>
+        />
+      </span>
     </div>
 
     <!-- modal dialog -->
@@ -72,14 +75,28 @@ export default {
 </script>
 
 <style scoped>
+header {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  width: 100%;
+  background-color: white;
+}
+
 .header-container {
   padding: 0.5rem 0;
   display: flex;
 }
 
+.ham {
+  flex: 1;
+}
+
 .logo {
-  margin-right: auto;
-  margin-left: 1rem;
+  margin: auto;
+  flex: 7;
+  text-align: center;
 }
 
 .logo > a {
@@ -89,26 +106,9 @@ export default {
 }
 
 .user-state {
-  margin-left: auto;
-  margin-right: 1rem;
   font-size: 2rem;
-}
-
-.gnb-ul {
-  display: flex;
-  white-space: nowrap;
-  overflow-x: auto;
-  overflow-y: hidden;
   text-align: center;
-}
-
-.gnb-li > a {
-  color: #2699fb;
-  padding: 0.5rem 0.5rem;
-}
-
-.gnb-ul::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera*/
+  flex: 1;
 }
 
 .action-btn > a {
@@ -133,5 +133,22 @@ export default {
   text-align: center;
   background-color: antiquewhite;
   color: #2699fb;
+}
+
+.gnb-ul {
+  display: flex;
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  text-align: center;
+}
+
+.gnb-li > a {
+  color: #2699fb;
+  padding: 0.5rem 0.5rem;
+}
+
+.gnb-ul::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
 }
 </style>

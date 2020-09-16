@@ -1,25 +1,26 @@
 <template>
   <div id="app">
     <app-header></app-header>
-    <router-view class="section"></router-view>
+    <app-section></app-section>
+    <app-footer></app-footer>
   </div>
 </template>
 
 <script>
 import AppHeader from '@/components/common/AppHeader.vue';
+import AppFooter from '@/components/common/AppFooter.vue';
+import AppSection from '@/components/common/AppSection.vue';
 
 export default {
   name: 'App',
   components: {
     AppHeader,
+    AppFooter,
+    AppSection,
   },
 };
 </script>
 
 <style>
 @import './css/reset.css';
-
-.section {
-  padding: 1rem;
-}
 </style>
