@@ -4,7 +4,11 @@
       <div class="logo">
         <router-link to="/main">MajorRunner</router-link>
       </div>
-      <span class="user-state" @click="modalControll">&nabla;</span>
+      <span class="user-state" @click="modalControll"
+        ><font-awesome-icon
+          :icon="['far', 'user']"
+          :style="{ color: '#2699fb' }"
+      /></span>
     </div>
 
     <!-- modal dialog -->
