@@ -1,6 +1,5 @@
 <template>
   <section>
-    <div class="header-under"></div>
     <router-view></router-view>
   </section>
 </template>
@@ -10,7 +9,8 @@ export default {};
 </script>
 
 <style scoped>
-.header-under {
-  height: 74px;
+section {
+  flex: 20;
+  padding: 1rem;
 }
 </style>

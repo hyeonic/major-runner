@@ -23,4 +23,10 @@ export default {
 
 <style>
 @import './css/reset.css';
+
+#app {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
 </style>
