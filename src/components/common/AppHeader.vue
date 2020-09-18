@@ -1,32 +1,41 @@
 <template>
   <header>
     <div class="header-container">
-      <div class="ham"></div>
+      <span class="search">
+        <font-awesome-icon
+          @click="clickSearch"
+          :icon="['fas', 'search']"
+          :style="{ color: '#2699fb' }"
+        />
+      </span>
       <div class="logo">
         <router-link to="/main">MajorRunner</router-link>
       </div>
       <span class="user-state">
         <font-awesome-icon
-          @click="modalControll"
+          @click="modalControl"
           :icon="['far', 'user']"
           :style="{ color: '#2699fb' }"
         />
       </span>
     </div>
 
+    <!-- search bar -->
+    <search-form v-if="showSearch"></search-form>
+
     <!-- modal dialog -->
     <modal-dialog v-if="showModal">
       <h3 slot="header">MajorRunner</h3>
       <div slot="body">
-        <div class="action-btn" @click="modalControll">
+        <div class="action-btn" @click="modalControl">
           <router-link to="/login">로그인</router-link>
         </div>
-        <div class="action-btn" @click="modalControll">
+        <div class="action-btn" @click="modalControl">
           <router-link to="/signup">회원가입</router-link>
         </div>
       </div>
       <div slot="footer">
-        <div class="close-modal-btn" @click="modalControll">닫기</div>
+        <div class="close-modal-btn" @click="modalControl">닫기</div>
       </div>
     </modal-dialog>
 
@@ -43,6 +52,7 @@
 
 <script>
 import ModalDialog from '@/components/common/ModalDialog.vue';
+import SearchForm from '@/components/form/SearchForm.vue';
 
 export default {
   data() {
@@ -57,19 +67,28 @@ export default {
         { name: '오늘 뭐하지?', path: '/category/today' },
       ],
       showModal: false,
+      showSearch: false,
     };
   },
   methods: {
-    modalControll() {
+    modalControl() {
       if (this.showModal !== false) {
         this.showModal = false;
       } else {
         this.showModal = true;
       }
     },
+    clickSearch() {
+      if (this.showSearch !== false) {
+        this.showSearch = false;
+      } else {
+        this.showSearch = true;
+      }
+    },
   },
   components: {
     ModalDialog,
+    SearchForm,
   },
 };
 </script>
@@ -82,6 +101,7 @@ header {
   top: 0;
   width: 100%;
   background-color: white;
+  padding-bottom: 0.5rem;
 }
 
 .header-container {
@@ -89,8 +109,12 @@ header {
   display: flex;
 }
 
-.ham {
+.search {
+  font-size: 1.5rem;
+  line-height: 1.5rem;
+  text-align: center;
   flex: 1;
+  padding-top: 0.5rem;
 }
 
 .logo {
