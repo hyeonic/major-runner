@@ -23,6 +23,14 @@ export default new VueRouter({
       component: () => import('@/views/SignupPage.vue'),
     },
     {
+      path: '/category/:id',
+      component: () => import('@/views/CategoryPage.vue'),
+    },
+    {
+      path: '/category/:id/:subId',
+      component: () => import('@/views/CategorySubPage.vue'),
+    },
+    {
       path: '*',
       component: () => import('@/views/NotFoundPage.vue'),
     },
