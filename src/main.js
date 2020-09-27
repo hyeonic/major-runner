@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import App from './App.vue';
 import router from '@/routes/index.js';
+import store from '@/store/index.js';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
@@ -14,4 +15,5 @@ Vue.config.productionTip = false;
 new Vue({
   render: h => h(App),
   router,
+  store,
 }).$mount('#app');

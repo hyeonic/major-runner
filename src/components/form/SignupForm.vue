@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="">
+  <form @submit.prevent="submitForm">
     <div class="input-wrap">
       <input
         class="input-signup"
@@ -19,9 +19,9 @@
     <div class="input-wrap">
       <input
         class="input-signup"
-        type="password"
-        v-model="passwordCheck"
-        placeholder="비밀번호 확인"
+        type="text"
+        v-model="nickName"
+        placeholder="nickname"
       />
     </div>
     <div class="log-message">
@@ -34,17 +34,41 @@
 </template>
 
 <script>
+import { registerUser } from '@/api/auth.js';
+import { validateEmail } from '@/utils/validation';
+
 export default {
   data() {
     return {
       // form value
       username: '',
       password: '',
-      passwordCheck: '',
+      nickName: '',
 
       // Log
       logMessage: '--',
     };
+  },
+  computed: {
+    isUserNameValid() {
+      return validateEmail(this.username);
+    },
+  },
+  methods: {
+    async submitForm() {
+      try {
+        const userData = {
+          username: this.username,
+          password: this.password,
+          nickName: this.nickName,
+        };
+        const { data } = await registerUser(userData);
+        this.logMessage = `${data.username}님이 가입되었습니다.`;
+      } catch (error) {
+        console.log(error.respose.data);
+        this.logMessage = error.respose.data;
+      }
+    },
   },
 };
 </script>
