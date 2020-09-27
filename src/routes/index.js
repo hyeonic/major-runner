@@ -31,6 +31,10 @@ export default new VueRouter({
       component: () => import('@/views/CategorySubPage.vue'),
     },
     {
+      path: '/post/edit',
+      component: () => import('@/views/PostEditPage.vue'),
+    },
+    {
       path: '*',
       component: () => import('@/views/NotFoundPage.vue'),
     },

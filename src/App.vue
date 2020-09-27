@@ -3,6 +3,8 @@
     <app-header></app-header>
     <app-section></app-section>
     <app-footer></app-footer>
+
+    <button class="action-edit">+</button>
   </div>
 </template>
 
@@ -28,5 +30,14 @@ export default {
   display: flex;
   min-height: 100vh;
   flex-direction: column;
+}
+
+.action-edit {
+  position: fixed;
+  font-size: 2rem;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  bottom: 10rem;
+  right: 3rem;
 }
 </style>
