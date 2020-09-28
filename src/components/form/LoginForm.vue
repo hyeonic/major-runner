@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="">
+  <form @submit.prevent="submitForm">
     <div class="input-wrap">
       <input
         class="input-login"
@@ -8,6 +8,11 @@
         placeholder="아이디"
       />
     </div>
+    <p class="validation-text">
+      <span class="warning" v-if="!isUserNameValid && username">
+        Please enter an email address
+      </span>
+    </p>
     <div class="input-wrap">
       <input
         class="input-login"
@@ -26,6 +31,8 @@
 </template>
 
 <script>
+import { validateEmail } from '@/utils/validation';
+
 export default {
   data() {
     return {
@@ -34,8 +41,34 @@ export default {
       password: '',
 
       // Log
-      logMessage: '--',
+      logMessage: '',
     };
+  },
+  computed: {
+    isUserNameValid() {
+      return validateEmail(this.username);
+    },
+  },
+  methods: {
+    async submitForm() {
+      try {
+        const userData = {
+          username: this.username,
+          password: this.password,
+        };
+
+        await this.$store.dispatch('LOGIN', userData);
+        this.$router.push('/main');
+      } catch (error) {
+        this.logMessage = error.response.data;
+      } finally {
+        this.initForm();
+      }
+    },
+    initForm() {
+      this.username = '';
+      this.password = '';
+    },
   },
 };
 </script>

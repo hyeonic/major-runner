@@ -1,11 +1,16 @@
 <template>
   <div>
-    post edit page
+    <post-edit-form></post-edit-form>
   </div>
 </template>
 
 <script>
-export default {};
+import PostEditForm from '@/components/form/PostEditForm.vue';
+export default {
+  components: {
+    PostEditForm,
+  },
+};
 </script>
 
 <style></style>

@@ -7,6 +7,13 @@ function registerUser(userData) {
 
 // token을 발급 받는 login API
 function getToken(userData) {
-  return instance.post('/aouth/token', userData);
+  const data = new FormData();
+  data.append('username', userData.username);
+  data.append('password', userData.password);
+  data.append('grant_type', 'password');
+
+  console.log(userData);
+  return instance.post('/oauth/token', data);
 }
+
 export { registerUser, getToken };

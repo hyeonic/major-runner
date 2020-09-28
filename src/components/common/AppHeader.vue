@@ -27,12 +27,22 @@
     <modal-dialog v-if="showModal">
       <h3 slot="header">MajorRunner</h3>
       <div slot="body">
-        <div class="action-btn" @click="modalControl">
-          <router-link to="/login">로그인</router-link>
-        </div>
-        <div class="action-btn" @click="modalControl">
-          <router-link to="/signup">회원가입</router-link>
-        </div>
+        <template v-if="isLogin">
+          <div class="user-info">
+            {{ fetchedUser }}
+          </div>
+          <div class="action-btn" @click="logoutUser">
+            <router-link to="/main">로그아웃</router-link>
+          </div>
+        </template>
+        <template v-else>
+          <div class="action-btn" @click="modalControl">
+            <router-link to="/login">로그인</router-link>
+          </div>
+          <div class="action-btn" @click="modalControl">
+            <router-link to="/signup">회원가입</router-link>
+          </div>
+        </template>
       </div>
       <div slot="footer">
         <div class="close-modal-btn" @click="modalControl">닫기</div>
@@ -53,6 +63,7 @@
 <script>
 import ModalDialog from '@/components/common/ModalDialog.vue';
 import SearchForm from '@/components/form/SearchForm.vue';
+import { deleteCookie } from '@/utils/cookies.js';
 
 export default {
   data() {
@@ -68,7 +79,16 @@ export default {
       ],
       showModal: false,
       showSearch: false,
+      username: '',
     };
+  },
+  computed: {
+    fetchedUser() {
+      return this.$store.getters.fetchedUser;
+    },
+    isLogin() {
+      return this.$store.getters.isLogin;
+    },
   },
   methods: {
     modalControl() {
@@ -85,7 +105,15 @@ export default {
         this.showSearch = true;
       }
     },
+    logoutUser() {
+      this.$store.commit('clearUsername');
+      this.$store.commit('clearToken');
+      deleteCookie('mr_auth');
+      deleteCookie('mr_user');
+      this.$router.push('/login');
+    },
   },
+
   components: {
     ModalDialog,
     SearchForm,
@@ -133,6 +161,11 @@ header {
   font-size: 2rem;
   text-align: center;
   flex: 1;
+}
+
+.user-info {
+  text-align: center;
+  margin: 1rem 0;
 }
 
 .action-btn > a {

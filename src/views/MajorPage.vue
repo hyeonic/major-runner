@@ -1,5 +1,7 @@
 <template>
-  <div>category page {{ $route.params.id }}</div>
+  <div>
+    전공 게시판
+  </div>
 </template>
 
 <script>

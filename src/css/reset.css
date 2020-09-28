@@ -33,7 +33,8 @@ textarea {
 	padding: 0;
 	margin: 0;
 	background: transparent;
-	resize: none;
+    resize: none;
+    font-family: inherit;
 }
 
 li {
