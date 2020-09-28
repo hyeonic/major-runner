@@ -21,13 +21,15 @@ function createInstance() {
 function createInstanceWithAuth(url) {
   const instance = axios.create({
     baseURL: `${process.env.VUE_APP_API_URL}${url}`,
-    // headers: {
-    //   Authorization: store.state.token, token이 담기기 전에 담아버림
-    // },
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json; charset = utf-8',
+    },
   });
 
   return setInterceptors(instance);
 }
 
 export const instance = createInstance();
-export const posts = createInstanceWithAuth('/api/posts');
+export const posts = createInstanceWithAuth('api/posts');
+export const category = createInstanceWithAuth('api/category');

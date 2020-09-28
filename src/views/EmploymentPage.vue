@@ -1,6 +1,6 @@
 <template>
   <div id="wrap">
-    <div class="title">전공 게시판</div>
+    <div class="title">취업 게시판</div>
     <div class="sub-category">
       <loading-spinner v-if="isLoading"></loading-spinner>
       <ul class="category-ul" v-else>
@@ -11,11 +11,11 @@
         >
           <router-link
             class="sub-category-link"
-            :to="`/category/major/${category.id}`"
+            :to="`/category/employment/${category.id}`"
           >
             {{
               category.subCategoryName === ''
-                ? '모두의 전공 게시판'
+                ? '모두의 취업 게시판'
                 : category.subCategoryName
             }}
           </router-link>
@@ -39,7 +39,7 @@ export default {
   methods: {
     async fetchCategories() {
       this.isLoading = true;
-      const { data } = await fetchCategories('전공');
+      const { data } = await fetchCategories('취업');
       this.isLoading = false;
       this.subCategories = data;
     },

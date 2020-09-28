@@ -13,11 +13,11 @@ const router = new VueRouter({
     },
     {
       path: '/main',
-      component: () => import('@/views/MainPage.vue'),
+      component: () => import('@/views/MainPage.vue'), // 코드 스플릿트
     },
     {
       path: '/login',
-      component: () => import('@/views/LoginPage.vue'), // 코드 스플릿트
+      component: () => import('@/views/LoginPage.vue'),
     },
     {
       path: '/signup',
@@ -28,7 +28,11 @@ const router = new VueRouter({
       component: () => import('@/views/MajorPage.vue'),
     },
     {
-      path: '/category/:id/:subId',
+      path: '/category/employment',
+      component: () => import('@/views/EmploymentPage.vue'),
+    },
+    {
+      path: '/category/:categoryName/:categoryId',
       component: () => import('@/views/CategorySubPage.vue'),
     },
     {
