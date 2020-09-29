@@ -49,7 +49,7 @@ export default new Vuex.Store({
       const response = await getToken(userData);
       console.log(response);
       commit('setUsername', userData.username);
-      commit('setToken', response.data.access_token);
+      commit('setToken', 'Bearer ' + response.data.access_token);
       saveAuthToCookie(response.data.access_token);
       saveUserToCookie(userData.username);
       return response;

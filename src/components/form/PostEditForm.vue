@@ -1,5 +1,6 @@
 <template>
   <div id="wrap">
+    <loading-spinner v-if="isLoading"></loading-spinner>
     <form id="form" @submit.prevent="submitForm">
       <div class="item">
         <input
@@ -13,7 +14,7 @@
         <textarea
           id="contents"
           type="text"
-          rows="5"
+          rows="10"
           v-model="contents"
           placeholder="내용을 입력하세요"
         />
@@ -21,27 +22,15 @@
           Contents must be less then 200
         </p>
       </div>
-      <select v-model="category">
+      <select class="selection" v-model="category">
         <option disabled value="">카테고리를 골라주세요!</option>
-        <option value="100">전공</option>
-        <option value="200">취업</option>
-        <option value="300">대외활동</option>
-        <option value="400">스터디</option>
-        <option value="500">생활 정보</option>
-        <option value="600">시사 이슈</option>
-        <option value="700">오늘 뭐하지?</option>
-        <!-- <option value="101">전공/경영, 사무</option>
-        <option value="102">전공/영업, 고객상담</option>
-        <option value="103">전공/it, 네트워크</option>
-        <option value="104">전공/디자인</option>
-        <option value="105">전공/서비스</option>
-        <option value="106">전공/전문직</option>
-        <option value="107">전공/의료</option>
-        <option value="108">전공/생산, 제조</option>
-        <option value="109">전공/건설</option>
-        <option value="110">전공/유통, 무역</option>
-        <option value="111">전공/미디어</option>
-        <option value="112">전공/교육</option> -->
+        <option
+          v-for="(category, index) in categories"
+          :key="index"
+          :value="category.id"
+        >
+          {{ category.categoryName + ' / ' + category.subCategoryName }}
+        </option>
       </select>
       <div class="comment">
         <transition name="fade" mode="in-out">
@@ -53,13 +42,16 @@
           </button>
         </transition>
       </div>
-      <button class="action-create" type="submit">save</button>
+      <button class="action-create" type="submit">edit</button>
     </form>
     <p class="log-message">{{ logMessage }}</p>
   </div>
 </template>
 
 <script>
+import LoadingSpinner from '@/components/common/LoadingSpinner.vue';
+import { fetchAllCategories } from '@/api/category.js';
+
 export default {
   data() {
     return {
@@ -71,6 +63,8 @@ export default {
       comment: [],
       like: [],
       logMessage: '',
+      categories: [],
+      isLoading: false,
     };
   },
   computed: {
@@ -80,6 +74,7 @@ export default {
   },
   created() {
     this.username = this.$store.getters.fetchedUser;
+    this.fetchAllCategories();
   },
   methods: {
     changeComent() {
@@ -90,6 +85,15 @@ export default {
       }
     },
     submitForm() {},
+    async fetchAllCategories() {
+      this.isLoading = true;
+      const { data } = await fetchAllCategories();
+      this.isLoading = false;
+      this.categories = data;
+    },
+  },
+  components: {
+    LoadingSpinner,
   },
 };
 </script>

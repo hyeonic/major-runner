@@ -21,15 +21,12 @@ function createInstance() {
 function createInstanceWithAuth(url) {
   const instance = axios.create({
     baseURL: `${process.env.VUE_APP_API_URL}${url}`,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Content-Type': 'application/json; charset = utf-8',
-    },
   });
 
   return setInterceptors(instance);
 }
 
 export const instance = createInstance();
+export const account = createInstanceWithAuth('api/account');
 export const posts = createInstanceWithAuth('api/posts');
 export const category = createInstanceWithAuth('api/category');
