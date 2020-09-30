@@ -36,6 +36,10 @@ const router = new VueRouter({
       component: () => import('@/views/CategorySubPage.vue'),
     },
     {
+      path: '/post/:id',
+      component: () => import('@/views/PostPage.vue'),
+    },
+    {
       path: '/post/:categoryName/add',
       component: () => import('@/views/PostAddPage.vue'),
       //   meta: {

@@ -1,21 +1,36 @@
 <template>
   <li class="post-li">
-    <div class="post-header">
-      <span class="post-title">test title</span>
-      <span class="post-created">2020-09-29</span>
-    </div>
-    <div class="post-footer">
-      <span class="post-user">user@email.com</span>
-      <span class="post-views">1004</span>
-    </div>
+    <router-link :to="`/post/${post.id}`">
+      <div class="post-header">
+        <span class="post-title">{{ post.title }}</span>
+        <span class="post-views">{{ post.views }}</span>
+      </div>
+      <div class="post-footer">
+        <span class="post-user">익명</span>
+        <span class="post-created">{{
+          post.updatedAt[0] +
+            '-' +
+            post.updatedAt[1] +
+            '-' +
+            post.updatedAt[2] +
+            ' ' +
+            post.updatedAt[3] +
+            ':' +
+            post.updatedAt[4]
+        }}</span>
+      </div>
+    </router-link>
   </li>
 </template>
 
 <script>
 export default {
-  //   props: {
-  //     post,
-  //   },
+  props: {
+    post: {
+      type: Object,
+      required: true,
+    },
+  },
 };
 </script>
 
@@ -42,5 +57,9 @@ export default {
 .post-views {
   float: right;
   font-size: 0.8rem;
+}
+
+a {
+  color: #2d76c9;
 }
 </style>

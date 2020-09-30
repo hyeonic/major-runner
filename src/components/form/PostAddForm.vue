@@ -90,6 +90,8 @@ export default {
           contents: this.contents,
           account: {
             username: this.username,
+            password: '',
+            nickName: '',
           },
           commentStatus: this.commentStatus,
           category: this.category,

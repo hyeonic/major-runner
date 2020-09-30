@@ -1,8 +1,10 @@
 import { posts } from './index.js';
 
 // category별 posts 목록 조회 API -> paging을 위한 param 삽임 예정
-function fetchPosts(categoryId) {
-  return posts.get(`/category/${categoryId}`);
+function fetchPosts(categoryId, pageble) {
+  return posts.get(
+    `/category/${categoryId}?page=${pageble.page}&size=${pageble.size}&sort=${pageble.sort},DESC`,
+  );
 }
 
 // 특정 posts 1개를 조회하는 API
