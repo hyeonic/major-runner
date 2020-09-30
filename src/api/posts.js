@@ -9,7 +9,7 @@ function fetchPosts(categoryId, pageble) {
 
 // 특정 posts 1개를 조회하는 API
 function fetchPost(postId) {
-  return posts.get(postId);
+  return posts.get(`/${postId}`);
 }
 
 // post를 생성하는 API
@@ -34,7 +34,7 @@ function incrementViews(postId) {
 
 // post에 comment를 조회하는 API
 function fetchComments(postId) {
-  return posts.get(`/${postId}/comments`);
+  return posts.get(`/${postId}/comment`);
 }
 
 // post에 comment를 추가하는 API

@@ -7,17 +7,7 @@
       </div>
       <div class="post-footer">
         <span class="post-user">익명</span>
-        <span class="post-created">{{
-          post.updatedAt[0] +
-            '-' +
-            post.updatedAt[1] +
-            '-' +
-            post.updatedAt[2] +
-            ' ' +
-            post.updatedAt[3] +
-            ':' +
-            post.updatedAt[4]
-        }}</span>
+        <span class="post-created">{{ post.updatedAt | formatDate }}</span>
       </div>
     </router-link>
   </li>

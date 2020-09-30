@@ -21,6 +21,10 @@ function createInstance() {
 function createInstanceWithAuth(url) {
   const instance = axios.create({
     baseURL: `${process.env.VUE_APP_API_URL}${url}`,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json; charset = utf-8',
+    },
   });
 
   return setInterceptors(instance);

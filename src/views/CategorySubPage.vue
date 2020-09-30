@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import PostListItem from '@/components/posts/PostListItem.vue';
+import PostListItem from '@/components/list/PostListItem.vue';
 import LoadingSpinner from '@/components/common/LoadingSpinner.vue';
 import { fetchCategory } from '@/api/category.js';
 import { fetchPosts } from '@/api/posts.js';

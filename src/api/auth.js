@@ -11,8 +11,6 @@ function getToken(userData) {
   data.append('username', userData.username);
   data.append('password', userData.password);
   data.append('grant_type', 'password');
-
-  console.log(userData);
   return instance.post('/oauth/token', data);
 }
 

@@ -1,20 +1,46 @@
 <template>
-  <form id="form" @submit.prevent="">
+  <form id="form" @submit.prevent="submitForm">
     <div class="form-wrap">
-      <input type="text" placeholder="댓글을 작성하세요!" />
-      <div class="send-icon-wrap" type="submit">
+      <input type="text" v-model="comment" placeholder="댓글을 작성하세요!" />
+      <button class="send-icon-wrap" type="submit">
         <font-awesome-icon
           class="send-icon"
           :icon="['fas', 'arrow-up']"
           :style="{ color: '#2699fb' }"
         />
-      </div>
+      </button>
     </div>
   </form>
 </template>
 
 <script>
-export default {};
+import { createComment } from '@/api/posts.js';
+
+export default {
+  props: {
+    postId: {
+      type: String,
+    },
+  },
+  data() {
+    return {
+      comment: '',
+    };
+  },
+  methods: {
+    async submitForm() {
+      try {
+        const { data } = await createComment(this.postId, {
+          comment: this.comment,
+        });
+        console.log(data);
+        this.$router.go(this.$route.path);
+      } catch (error) {
+        this.logMessage = error.response.data.message;
+      }
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -37,5 +63,10 @@ input:focus {
   width: 10%;
   padding: 0.5rem;
   text-align: center;
+}
+
+button {
+  border: 0;
+  background: none;
 }
 </style>

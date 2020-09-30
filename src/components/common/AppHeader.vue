@@ -13,6 +13,13 @@
       </div>
       <span class="user-state">
         <font-awesome-icon
+          v-if="isLogin"
+          @click="modalControl"
+          :icon="['fas', 'user']"
+          :style="{ color: '#2699fb' }"
+        />
+        <font-awesome-icon
+          v-else
           @click="modalControl"
           :icon="['far', 'user']"
           :style="{ color: '#2699fb' }"
