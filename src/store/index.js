@@ -19,7 +19,7 @@ export default new Vuex.Store({
   },
   getters: {
     fetchedUser(state) {
-      return state.username;
+      return state.nickName;
     },
     isLogin(state) {
       return state.username !== '';
@@ -48,10 +48,11 @@ export default new Vuex.Store({
   actions: {
     async LOGIN({ commit }, userData) {
       const response = await getToken(userData);
-      const nickName = await fetchAccount(userData.username).nickName;
+      const account = await fetchAccount(userData.username);
+      console.log(account);
       commit('setUsername', userData.username);
       commit('setToken', 'Bearer ' + response.data.access_token);
-      commit('setNickName', nickName);
+      commit('setNickName', account.data.nickName);
       saveAuthToCookie(response.data.access_token);
       saveUserToCookie(userData.username);
       return response;

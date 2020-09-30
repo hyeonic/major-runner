@@ -32,6 +32,26 @@ const router = new VueRouter({
       component: () => import('@/views/EmploymentPage.vue'),
     },
     {
+      path: '/category/activity',
+      component: () => import('@/views/ActivityPage.vue'),
+    },
+    {
+      path: '/category/study',
+      component: () => import('@/views/StudyPage.vue'),
+    },
+    {
+      path: '/category/life',
+      component: () => import('@/views/LifePage.vue'),
+    },
+    {
+      path: '/category/issue',
+      component: () => import('@/views/IssuePage.vue'),
+    },
+    {
+      path: '/category/Today',
+      component: () => import('@/views/TodayPage.vue'),
+    },
+    {
       path: '/category/:categoryName/:categoryId',
       component: () => import('@/views/CategorySubPage.vue'),
     },

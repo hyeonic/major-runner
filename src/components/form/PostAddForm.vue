@@ -34,12 +34,12 @@
       </select>
       <div class="comment">
         <transition name="fade" mode="in-out">
-          <button v-if="commentStatus === 'SHOW'" @click="changeComent">
+          <div v-if="commentStatus === 'SHOW'" @click="changeComent">
             comment O
-          </button>
-          <button v-if="commentStatus === 'HIDE'" @click="changeComent">
+          </div>
+          <div v-if="commentStatus === 'HIDE'" @click="changeComent">
             comment X
-          </button>
+          </div>
         </transition>
       </div>
       <button class="action-create" type="submit">save</button>
@@ -175,14 +175,15 @@ select:focus {
   font-size: 1rem;
 }
 
-.comment > button {
+.comment > div {
+  display: inline-block;
   border-radius: 20px;
   border: 2px solid #2699fb;
   padding: 0.5rem;
   color: #2699fb;
 }
 
-.comment > button:focus {
+.comment > div:focus {
   outline: none;
 }
 

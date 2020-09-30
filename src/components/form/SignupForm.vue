@@ -8,6 +8,11 @@
         placeholder="아이디"
       />
     </div>
+    <p class="validation-text">
+      <span class="warning" v-if="!isUserNameValid && username">
+        email 형식으로 기입하세요.
+      </span>
+    </p>
     <div class="input-wrap">
       <input
         class="input-signup"
@@ -46,7 +51,7 @@ export default {
       nickName: '',
 
       // Log
-      logMessage: '--',
+      logMessage: '',
     };
   },
   computed: {
@@ -64,9 +69,9 @@ export default {
         };
         const { data } = await registerUser(userData);
         this.logMessage = `${data.username}님이 가입되었습니다.`;
+        this.$router.push('/main');
       } catch (error) {
-        console.log(error.respose.data);
-        this.logMessage = error.respose.data;
+        this.logMessage = '이미 존재하는 회원입니다.';
       }
     },
   },
@@ -79,8 +84,16 @@ export default {
   width: 90%;
   border: 2px solid #bce0fd;
   border-radius: 50px;
-  margin: 2rem auto 1rem auto;
+  margin: 1rem auto 1rem auto;
 }
+
+.warning {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  color: crimson;
+}
+
 .input-signup {
   font-size: 1rem;
   width: 95%;
@@ -97,14 +110,15 @@ export default {
 
 .log-message {
   text-align: center;
-  padding: 10%;
+  padding: 1rem;
+  color: #2699fb;
 }
 
 .button-wrap {
   width: 90%;
   border: 2px solid #bce0fd;
   border-radius: 50px;
-  margin: 2rem auto 1rem auto;
+  margin: 1rem auto 1rem auto;
 }
 
 .button-wrap > button {

@@ -10,7 +10,7 @@
     </div>
     <p class="validation-text">
       <span class="warning" v-if="!isUserNameValid && username">
-        Please enter an email address
+        email 형식으로 기입하세요.
       </span>
     </p>
     <div class="input-wrap">
@@ -81,6 +81,14 @@ export default {
   border-radius: 50px;
   margin: 2rem auto 1rem auto;
 }
+
+.warning {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  color: crimson;
+}
+
 .input-login {
   font-size: 1rem;
   width: 95%;
