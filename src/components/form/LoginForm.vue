@@ -60,7 +60,8 @@ export default {
         await this.$store.dispatch('LOGIN', userData);
         this.$router.push('/main');
       } catch (error) {
-        this.logMessage = error.response.data;
+        this.logMessage =
+          '아이디가 존재하지 않거나 비밀번호가 일치하지 않습니다.';
       } finally {
         this.initForm();
       }

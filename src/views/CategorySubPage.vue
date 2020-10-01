@@ -58,7 +58,6 @@ export default {
         sort: 'createdAt',
       });
       this.posts = data.content;
-      console.log(data);
     },
   },
   components: {

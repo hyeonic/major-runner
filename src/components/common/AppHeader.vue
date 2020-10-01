@@ -36,7 +36,7 @@
       <div slot="body">
         <template v-if="isLogin">
           <div class="user-info">
-            {{ fetchedUser }}
+            {{ fetchedUserInfo }}
           </div>
           <div class="action-btn" @click="logoutUser">
             <router-link to="/main">로그아웃</router-link>
@@ -90,8 +90,8 @@ export default {
     };
   },
   computed: {
-    fetchedUser() {
-      return this.$store.getters.fetchedUser;
+    fetchedUserInfo() {
+      return this.$store.getters.fetchedUserInfo.nickName;
     },
     isLogin() {
       return this.$store.getters.isLogin;

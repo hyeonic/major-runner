@@ -9,8 +9,6 @@
           v-model="title"
           placeholder="제목을 입력하세요"
         />
-      </div>
-      <div class="item">
         <textarea
           id="contents"
           type="text"
@@ -58,7 +56,8 @@ export default {
     return {
       title: '',
       contents: '',
-      username: '',
+      uesrname: '',
+      nickName: '',
       commentStatus: 'SHOW',
       category: '',
       logMessage: '',
@@ -72,7 +71,9 @@ export default {
     },
   },
   created() {
-    this.username = this.$store.getters.fetchedUser;
+    const userInfo = this.$store.getters.fetchedUserInfo;
+    this.username = userInfo.username;
+    this.nickName = userInfo.nickName;
     this.fetchAllCategories();
   },
   methods: {
@@ -84,23 +85,23 @@ export default {
       }
     },
     async submitForm() {
+      const post = {
+        title: this.title,
+        contents: this.contents,
+        account: {
+          username: this.username,
+          password: '',
+          nickName: '',
+        },
+        commentStatus: this.commentStatus,
+        category: this.category,
+      };
       try {
-        const response = await createPost({
-          title: this.title,
-          contents: this.contents,
-          account: {
-            username: this.username,
-            password: '',
-            nickName: '',
-          },
-          commentStatus: this.commentStatus,
-          category: this.category,
-        });
-        this.$router.push('/main');
+        const response = await createPost(post);
         console.log(response);
+        this.$router.push('/main');
       } catch (error) {
         console.log(error);
-        this.logMessage = error.response.data.message;
       }
     },
     async fetchAllCategories() {
@@ -117,12 +118,6 @@ export default {
 </script>
 
 <style scoped>
-/* #wrap {
-  border: 1px solid #ccc;
-  border-radius: 20px;
-  padding: 1rem;
-} */
-
 .title {
   text-align: center;
 }
@@ -133,6 +128,14 @@ export default {
 
 .item {
   width: 100%;
+  margin: 0.5rem 0;
+  padding: 0.5rem 0;
+  border: 1px solid #2699fb;
+  border-radius: 20px;
+}
+
+.item > input {
+  border-bottom: 1px solid #ccc;
 }
 
 #title {
@@ -146,12 +149,12 @@ export default {
   padding: 0.5rem;
 }
 
-textarea,
+/* textarea,
 input {
   margin: 0.5rem 0;
   border: 2px solid #2699fb;
   border-radius: 20px;
-}
+} */
 
 textarea:focus,
 input:focus {
@@ -159,7 +162,7 @@ input:focus {
 }
 
 select {
-  border: 2px solid #2699fb;
+  border: 1px solid #2699fb;
   padding: 0.5rem;
   margin: 0.5rem 0;
   border-radius: 20px;
@@ -178,7 +181,7 @@ select:focus {
 .comment > div {
   display: inline-block;
   border-radius: 20px;
-  border: 2px solid #2699fb;
+  border: 1px solid #2699fb;
   padding: 0.5rem;
   color: #2699fb;
 }

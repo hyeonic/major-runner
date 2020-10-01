@@ -48,8 +48,8 @@ function addLike(postId, userData) {
 }
 
 // post에 좋아요를 취소하는 API
-function deleteLike(postId, likeId) {
-  return posts.delete(`/${postId}/like/${likeId}`);
+function deleteLike(postId, username) {
+  return posts.delete(`/${postId}/like/${username}`);
 }
 
 export {

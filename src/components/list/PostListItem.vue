@@ -6,7 +6,7 @@
         <span class="post-views">{{ post.views }}</span>
       </div>
       <div class="post-footer">
-        <span class="post-user">익명</span>
+        <span class="post-user">{{ account.nickName }}</span>
         <span class="post-created">{{ post.updatedAt | formatDate }}</span>
       </div>
     </router-link>
@@ -14,11 +14,26 @@
 </template>
 
 <script>
+import { fetchPost } from '@/api/posts.js';
 export default {
   props: {
     post: {
       type: Object,
       required: true,
+    },
+  },
+  data() {
+    return {
+      account: {},
+    };
+  },
+  created() {
+    this.fetchPost();
+  },
+  methods: {
+    async fetchPost() {
+      const { data } = await fetchPost(this.post.id);
+      this.account = data.account;
     },
   },
 };
@@ -28,7 +43,7 @@ export default {
 .post-li {
   margin: 0.5rem 0;
   padding: 0.5rem 0;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .post-title {

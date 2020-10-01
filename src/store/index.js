@@ -3,8 +3,10 @@ import Vuex from 'vuex';
 import {
   getAuthFromCookie,
   getUserFromCookie,
+  getNickNameFromCookie,
   saveAuthToCookie,
   saveUserToCookie,
+  saveNickNameToCookie,
 } from '../utils/cookies.js';
 import { getToken } from '@/api/auth.js';
 import { fetchAccount } from '@/api/account.js';
@@ -15,11 +17,15 @@ export default new Vuex.Store({
   state: {
     username: getUserFromCookie() || '',
     token: getAuthFromCookie() || '',
-    nickName: '',
+    nickName: getNickNameFromCookie() || '',
   },
   getters: {
-    fetchedUser(state) {
-      return state.nickName;
+    fetchedUserInfo(state) {
+      const userInfo = {
+        username: state.username,
+        nickName: state.nickName,
+      };
+      return userInfo;
     },
     isLogin(state) {
       return state.username !== '';
@@ -49,13 +55,17 @@ export default new Vuex.Store({
     async LOGIN({ commit }, userData) {
       const response = await getToken(userData);
       const account = await fetchAccount(userData.username);
-      console.log(account);
+
+      // vuex store에 저장
       commit('setUsername', userData.username);
       commit('setToken', 'Bearer ' + response.data.access_token);
       commit('setNickName', account.data.nickName);
+
+      // 쿠기 정보 저장
       saveAuthToCookie(response.data.access_token);
       saveUserToCookie(userData.username);
-      return response;
+      saveNickNameToCookie(account.data.nickName);
+      return response.data;
     },
   },
 });

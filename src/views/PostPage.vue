@@ -13,8 +13,17 @@
           <div class="created">{{ post.created || '2020-09-30' }}</div>
         </div>
         <font-awesome-icon
+          v-if="likeStatus"
           class="like-icon"
+          @click="changeLikeStatus"
           :icon="['fas', 'thumbs-up']"
+          :style="{ color: '#2699fb' }"
+        />
+        <font-awesome-icon
+          v-else
+          class="like-icon"
+          @click="changeLikeStatus"
+          :icon="['far', 'thumbs-up']"
           :style="{ color: '#2699fb' }"
         />
       </div>
@@ -24,10 +33,13 @@
           {{ post.contents }}
         </div>
       </div>
+      <div class="write-comment">
+        <comment-add-form
+          @reload-post="fetchComments"
+          :postId="postId"
+        ></comment-add-form>
+      </div>
       <div class="post-comments">
-        <div class="write-comment">
-          <comment-add-form :postId="postId"></comment-add-form>
-        </div>
         <div class="comment-list">
           <ul>
             <comment-list-item
@@ -46,7 +58,14 @@
 import CommentAddForm from '@/components/form/CommentAddForm.vue';
 import LoadingSpinner from '@/components/common/LoadingSpinner.vue';
 import CommentListItem from '@/components/list/CommentListItem.vue';
-import { fetchPost, fetchComments } from '@/api/posts.js';
+import {
+  fetchPost,
+  fetchComments,
+  incrementViews,
+  addLike,
+  deleteLike,
+} from '@/api/posts.js';
+import { fetchLike } from '@/api/like.js';
 
 export default {
   data() {
@@ -56,6 +75,8 @@ export default {
       account: {},
       comments: [],
       logMessage: '',
+      likeStatus: false,
+      currentStatus: false,
       isLoading: false,
     };
   },
@@ -64,19 +85,53 @@ export default {
     this.isLoading = true;
     this.fetchPost();
     this.fetchComments();
+    this.incrementViews();
     this.isLoading = false;
+  },
+  beforeDestroy() {
+    this.currentStatus = this.likeStatus;
+    this.fetchLike();
+    if (this.likeStatus === false && this.currentStatus === true) {
+      console.log(1);
+      this.addLike();
+    } else if (this.likeStatus === true && this.currentStatus === false) {
+      console.log(2);
+      this.deleteLike();
+    }
   },
   methods: {
     async fetchPost() {
       const { data } = await fetchPost(this.postId);
-      console.log(data);
       this.post = data;
       this.account = this.post.account;
+      this.fetchLike();
     },
     async fetchComments() {
       const { data } = await fetchComments(this.postId);
-      console.log(data);
       this.comments = data;
+    },
+    async incrementViews() {
+      await incrementViews(this.postId);
+    },
+    async fetchLike() {
+      const response = await fetchLike(this.postId, this.account.nickName);
+      console.log(response);
+      this.likeStatus = response.data.result;
+    },
+    async addLike() {
+      const accountInfo = this.account;
+      console.log(accountInfo);
+      await addLike(this.postId, accountInfo);
+    },
+    async deleteLike() {
+      await deleteLike(this.postId, this.account.username);
+    },
+    changeLikeStatus() {
+      if (this.likeStatus === true) {
+        this.likeStatus = false;
+      } else if (this.likeStatus === false) {
+        this.likeStatus = true;
+      }
     },
   },
   components: {
@@ -116,16 +171,18 @@ export default {
 }
 
 .post-section {
-  padding: 0.5rem 0;
-  border-bottom: 1px solid #ccc;
+  padding: 1rem 0;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .title {
   font-size: 1.2rem;
   padding-bottom: 0.5rem;
+  word-break: break-all;
 }
 
 .contents {
-  padding-top: 0.5rem;
+  padding: 1rem 0;
+  word-break: break-all;
 }
 </style>

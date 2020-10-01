@@ -10,6 +10,11 @@
         />
       </button>
     </div>
+    <p class="validation-text">
+      <span class="warning">
+        {{ logMessage }}
+      </span>
+    </p>
   </form>
 </template>
 
@@ -25,18 +30,30 @@ export default {
   data() {
     return {
       comment: '',
+      logMessage: '',
+      userInfo: {},
     };
+  },
+  created() {
+    const userInfo = this.$store.getters.fetchedUserInfo;
+    this.userInfo.username = userInfo.username;
+    this.userInfo.nickName = userInfo.nickName;
   },
   methods: {
     async submitForm() {
       try {
-        const { data } = await createComment(this.postId, {
+        await createComment(this.postId, {
           comment: this.comment,
+          account: {
+            username: this.userInfo.username,
+            nickName: this.userInfo.nickName,
+            password: '',
+          },
         });
-        console.log(data);
-        this.$router.go(this.$route.path);
+        this.comment = '';
+        this.$emit('reload-post');
       } catch (error) {
-        this.logMessage = error.response.data.message;
+        this.logMessage = '로그인 후 작성해 주세요.';
       }
     },
   },
@@ -56,7 +73,7 @@ input {
 
 input:focus {
   outline: none;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .send-icon-wrap {
@@ -68,5 +85,12 @@ input:focus {
 button {
   border: 0;
   background: none;
+}
+
+.warning {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  color: crimson;
 }
 </style>
