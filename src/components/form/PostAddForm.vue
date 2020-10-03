@@ -97,8 +97,7 @@ export default {
         category: this.category,
       };
       try {
-        const response = await createPost(post);
-        console.log(response);
+        await createPost(post);
         this.$router.push('/main');
       } catch (error) {
         console.log(error);

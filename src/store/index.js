@@ -16,8 +16,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     username: getUserFromCookie() || '',
-    token: getAuthFromCookie() || '',
     nickName: getNickNameFromCookie() || '',
+    token: getAuthFromCookie() || '',
   },
   getters: {
     fetchedUserInfo(state) {
@@ -47,7 +47,7 @@ export default new Vuex.Store({
     setNickName(state, nickName) {
       state.nickName = nickName;
     },
-    getNickName(state) {
+    clearNickName(state) {
       state.nickName = '';
     },
   },
@@ -58,13 +58,14 @@ export default new Vuex.Store({
 
       // vuex store에 저장
       commit('setUsername', userData.username);
-      commit('setToken', 'Bearer ' + response.data.access_token);
       commit('setNickName', account.data.nickName);
+      commit('setToken', 'Bearer ' + response.data.access_token);
 
       // 쿠기 정보 저장
-      saveAuthToCookie(response.data.access_token);
       saveUserToCookie(userData.username);
       saveNickNameToCookie(account.data.nickName);
+      saveAuthToCookie(response.data.access_token);
+
       return response.data;
     },
   },

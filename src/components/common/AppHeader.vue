@@ -114,9 +114,11 @@ export default {
     },
     logoutUser() {
       this.$store.commit('clearUsername');
+      this.$store.commit('clearNickName');
       this.$store.commit('clearToken');
       deleteCookie('mr_auth');
       deleteCookie('mr_user');
+      deleteCookie('mr_nick_name');
       this.$router.push('/login');
     },
   },

@@ -15,14 +15,14 @@
         <font-awesome-icon
           v-if="likeStatus"
           class="like-icon"
-          @click="changeLikeStatus"
+          @click="changeLike"
           :icon="['fas', 'thumbs-up']"
           :style="{ color: '#2699fb' }"
         />
         <font-awesome-icon
           v-else
           class="like-icon"
-          @click="changeLikeStatus"
+          @click="changeLike"
           :icon="['far', 'thumbs-up']"
           :style="{ color: '#2699fb' }"
         />
@@ -46,6 +46,7 @@
               v-for="(comment, index) in comments"
               :key="index"
               :comment="comment"
+              @reload-post="fetchComments"
             ></comment-list-item>
           </ul>
         </div>
@@ -76,7 +77,6 @@ export default {
       comments: [],
       logMessage: '',
       likeStatus: false,
-      currentStatus: false,
       isLoading: false,
     };
   },
@@ -87,17 +87,6 @@ export default {
     this.fetchComments();
     this.incrementViews();
     this.isLoading = false;
-  },
-  beforeDestroy() {
-    this.currentStatus = this.likeStatus;
-    this.fetchLike();
-    if (this.likeStatus === false && this.currentStatus === true) {
-      console.log(1);
-      this.addLike();
-    } else if (this.likeStatus === true && this.currentStatus === false) {
-      console.log(2);
-      this.deleteLike();
-    }
   },
   methods: {
     async fetchPost() {
@@ -119,18 +108,30 @@ export default {
       this.likeStatus = response.data.result;
     },
     async addLike() {
-      const accountInfo = this.account;
+      const accountInfo = {
+        username: this.account.username,
+        nickName: this.account.nickName,
+      };
       console.log(accountInfo);
       await addLike(this.postId, accountInfo);
     },
     async deleteLike() {
-      await deleteLike(this.postId, this.account.username);
+      await deleteLike(this.postId, this.account.nickName);
     },
     changeLikeStatus() {
       if (this.likeStatus === true) {
         this.likeStatus = false;
       } else if (this.likeStatus === false) {
         this.likeStatus = true;
+      }
+    },
+    changeLike() {
+      if (this.likeStatus === false) {
+        this.addLike();
+        this.likeStatus = true;
+      } else if (this.likeStatus === true) {
+        this.deleteLike();
+        this.likeStatus = false;
       }
     },
   },

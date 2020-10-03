@@ -35,3 +35,4 @@ export const account = createInstanceWithAuth('api/account');
 export const posts = createInstanceWithAuth('api/posts');
 export const category = createInstanceWithAuth('api/category');
 export const like = createInstanceWithAuth('api/like');
+export const comment = createInstanceWithAuth('api/comment');
