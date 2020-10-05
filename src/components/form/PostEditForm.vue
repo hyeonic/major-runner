@@ -9,8 +9,6 @@
           v-model="title"
           placeholder="제목을 입력하세요"
         />
-      </div>
-      <div class="item">
         <textarea
           id="contents"
           type="text"
@@ -27,19 +25,19 @@
         <option
           v-for="(category, index) in categories"
           :key="index"
-          :value="category.id"
+          :value="category"
         >
           {{ category.categoryName + ' / ' + category.subCategoryName }}
         </option>
       </select>
       <div class="comment">
         <transition name="fade" mode="in-out">
-          <button v-if="commentStatus === 'SHOW'" @click="changeComent">
+          <div v-if="commentStatus === 'SHOW'" @click="changeComent">
             comment O
-          </button>
-          <button v-if="commentStatus === 'HIDE'" @click="changeComent">
+          </div>
+          <div v-if="commentStatus === 'HIDE'" @click="changeComent">
             comment X
-          </button>
+          </div>
         </transition>
       </div>
       <button class="action-create" type="submit">edit</button>
@@ -51,17 +49,18 @@
 <script>
 import LoadingSpinner from '@/components/common/LoadingSpinner.vue';
 import { fetchAllCategories } from '@/api/category.js';
+import { fetchPost, editPost } from '@/api/posts.js';
 
 export default {
   data() {
     return {
+      postId: '',
       title: '',
       contents: '',
-      username: '',
+      uesrname: '',
+      nickName: '',
       commentStatus: 'SHOW',
       category: '',
-      comment: [],
-      like: [],
       logMessage: '',
       categories: [],
       isLoading: false,
@@ -73,7 +72,11 @@ export default {
     },
   },
   created() {
-    this.username = this.$store.getters.fetchedUser;
+    this.postId = this.$route.params.id;
+    const userInfo = this.$store.getters.fetchedUserInfo;
+    this.username = userInfo.username;
+    this.nickName = userInfo.nickName;
+    this.fetchPost();
     this.fetchAllCategories();
   },
   methods: {
@@ -84,7 +87,31 @@ export default {
         this.commentStatus = 'SHOW';
       }
     },
-    submitForm() {},
+    async fetchPost() {
+      const { data } = await fetchPost(this.postId);
+      console.log(data);
+      this.title = data.title;
+      this.contents = data.contents;
+    },
+    async submitForm() {
+      const post = {
+        title: this.title,
+        contents: this.contents,
+        account: {
+          username: this.username,
+          password: '',
+          nickName: '',
+        },
+        commentStatus: this.commentStatus,
+        category: this.category,
+      };
+      try {
+        await editPost(this.postId, post);
+        this.$router.push('/main');
+      } catch (error) {
+        console.log(error);
+      }
+    },
     async fetchAllCategories() {
       this.isLoading = true;
       const { data } = await fetchAllCategories();
@@ -99,12 +126,6 @@ export default {
 </script>
 
 <style scoped>
-/* #wrap {
-  border: 1px solid #ccc;
-  border-radius: 20px;
-  padding: 1rem;
-} */
-
 .title {
   text-align: center;
 }
@@ -115,6 +136,14 @@ export default {
 
 .item {
   width: 100%;
+  margin: 0.5rem 0;
+  padding: 0.5rem 0;
+  border: 1px solid #2699fb;
+  border-radius: 20px;
+}
+
+.item > input {
+  border-bottom: 1px solid #ccc;
 }
 
 #title {
@@ -128,12 +157,12 @@ export default {
   padding: 0.5rem;
 }
 
-textarea,
+/* textarea,
 input {
   margin: 0.5rem 0;
   border: 2px solid #2699fb;
   border-radius: 20px;
-}
+} */
 
 textarea:focus,
 input:focus {
@@ -141,7 +170,7 @@ input:focus {
 }
 
 select {
-  border: 2px solid #2699fb;
+  border: 1px solid #2699fb;
   padding: 0.5rem;
   margin: 0.5rem 0;
   border-radius: 20px;
@@ -157,14 +186,15 @@ select:focus {
   font-size: 1rem;
 }
 
-.comment > button {
+.comment > div {
+  display: inline-block;
   border-radius: 20px;
-  border: 2px solid #2699fb;
+  border: 1px solid #2699fb;
   padding: 0.5rem;
   color: #2699fb;
 }
 
-.comment > button:focus {
+.comment > div:focus {
   outline: none;
 }
 

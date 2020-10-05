@@ -44,7 +44,6 @@ function createComment(postId, comment) {
 
 // post에 좋아요를 추가하는 API
 function addLike(postId, userData) {
-  console.log(userData);
   return posts.post(`/${postId}/like`, userData);
 }
 

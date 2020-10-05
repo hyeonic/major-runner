@@ -10,7 +10,7 @@
         />
         <div calss="post-info">
           <div class="user">{{ account.nickName }}</div>
-          <div class="created">{{ post.created || '2020-09-30' }}</div>
+          <span class="created">{{ postUpdatedAt }}</span>
         </div>
         <font-awesome-icon
           v-if="likeStatus"
@@ -32,24 +32,43 @@
         <div class="contents">
           {{ post.contents }}
         </div>
-      </div>
-      <div class="write-comment">
-        <comment-add-form
-          @reload-post="fetchComments"
-          :postId="postId"
-        ></comment-add-form>
-      </div>
-      <div class="post-comments">
-        <div class="comment-list">
-          <ul>
-            <comment-list-item
-              v-for="(comment, index) in comments"
-              :key="index"
-              :comment="comment"
-              @reload-post="fetchComments"
-            ></comment-list-item>
-          </ul>
+        <div class="post-icon" v-if="postAuth">
+          <font-awesome-icon
+            class="trash"
+            @click="deletePost"
+            :icon="['far', 'trash-alt']"
+            :style="{ color: '#2699fb' }"
+          />
+          <router-link :to="`/post/edit/${postId}`"
+            ><font-awesome-icon
+              class="edit"
+              :icon="['far', 'edit']"
+              :style="{ color: '#2699fb' }"
+          /></router-link>
         </div>
+      </div>
+      <div class="comment-section" v-if="commentStatus === 'SHOW'">
+        <div class="write-comment">
+          <comment-add-form
+            @reload-post="fetchComments"
+            :postId="postId"
+          ></comment-add-form>
+        </div>
+        <div class="post-comments">
+          <div class="comment-list">
+            <ul>
+              <comment-list-item
+                v-for="(comment, index) in comments"
+                :key="index"
+                :comment="comment"
+                @reload-post="fetchComments"
+              ></comment-list-item>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="comment-hide" v-else>
+        작성자가 댓글 사용을 중지하였습니다.
       </div>
     </template>
   </div>
@@ -61,12 +80,14 @@ import LoadingSpinner from '@/components/common/LoadingSpinner.vue';
 import CommentListItem from '@/components/list/CommentListItem.vue';
 import {
   fetchPost,
+  deletePost,
   fetchComments,
   incrementViews,
   addLike,
   deleteLike,
 } from '@/api/posts.js';
 import { fetchLike } from '@/api/like.js';
+import { formatDate } from '@/utils/filters.js';
 
 export default {
   data() {
@@ -75,6 +96,9 @@ export default {
       post: {},
       account: {},
       comments: [],
+      commentStatus: '',
+      postAuth: false,
+      postUpdatedAt: '',
       logMessage: '',
       likeStatus: false,
       isLoading: false,
@@ -93,7 +117,17 @@ export default {
       const { data } = await fetchPost(this.postId);
       this.post = data;
       this.account = this.post.account;
+      this.commentStatus = this.post.commentStatus;
       this.fetchLike();
+      this.dateFilter();
+      this.isLoginUser();
+    },
+    async deletePost() {
+      const tf = confirm('게시글을 삭제하시겠습니까?');
+      if (tf === true) {
+        await deletePost(this.postId);
+        this.$router.push('/main');
+      }
     },
     async fetchComments() {
       const { data } = await fetchComments(this.postId);
@@ -104,7 +138,6 @@ export default {
     },
     async fetchLike() {
       const response = await fetchLike(this.postId, this.account.nickName);
-      console.log(response);
       this.likeStatus = response.data.result;
     },
     async addLike() {
@@ -112,7 +145,6 @@ export default {
         username: this.account.username,
         nickName: this.account.nickName,
       };
-      console.log(accountInfo);
       await addLike(this.postId, accountInfo);
     },
     async deleteLike() {
@@ -133,6 +165,17 @@ export default {
         this.deleteLike();
         this.likeStatus = false;
       }
+    },
+    isLoginUser() {
+      const userInfo = this.$store.getters.fetchedUserInfo;
+      if (userInfo.nickName === this.account.nickName) {
+        this.postAuth = true;
+      } else {
+        this.postAuth = false;
+      }
+    },
+    dateFilter() {
+      this.postUpdatedAt = formatDate(this.post.updatedAt);
     },
   },
   components: {
@@ -185,5 +228,19 @@ export default {
 .contents {
   padding: 1rem 0;
   word-break: break-all;
+}
+
+.post-icon {
+  text-align: right;
+}
+
+.trash,
+.edit {
+  margin-left: 1rem;
+}
+
+.comment-hide {
+  text-align: center;
+  padding: 1rem;
 }
 </style>

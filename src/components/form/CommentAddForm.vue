@@ -5,7 +5,7 @@
       <button class="send-icon-wrap" type="submit">
         <font-awesome-icon
           class="send-icon"
-          :icon="['fas', 'arrow-up']"
+          :icon="['fas', 'angle-down']"
           :style="{ color: '#2699fb' }"
         />
       </button>
