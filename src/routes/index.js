@@ -74,6 +74,13 @@ const router = new VueRouter({
       },
     },
     {
+      path: '/user/category/add',
+      component: () => import('@/views/UserCategoryAddPage.vue'),
+      // meta: {
+      //     auth: true,
+      // },
+    },
+    {
       path: '*',
       component: () => import('@/views/NotFoundPage.vue'),
     },
