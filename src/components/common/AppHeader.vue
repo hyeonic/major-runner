@@ -38,6 +38,9 @@
           <div class="user-info">
             {{ fetchedUserInfo }}
           </div>
+          <div class="action-btn" @click="modalControl">
+            <router-link to="/user-info">내 정보</router-link>
+          </div>
           <div class="action-btn" @click="logoutUser">
             <router-link to="/main">로그아웃</router-link>
           </div>

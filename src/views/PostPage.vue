@@ -106,21 +106,25 @@ export default {
   },
   created() {
     this.postId = this.$route.params.id;
-    this.isLoading = true;
     this.fetchPost();
-    this.fetchComments();
-    this.incrementViews();
-    this.isLoading = false;
   },
   methods: {
     async fetchPost() {
-      const { data } = await fetchPost(this.postId);
-      this.post = data;
-      this.account = this.post.account;
-      this.commentStatus = this.post.commentStatus;
-      this.fetchLike();
-      this.dateFilter();
-      this.isLoginUser();
+      try {
+        this.isLoading = true;
+        const { data } = await fetchPost(this.postId);
+        this.post = data;
+        this.account = this.post.account;
+        this.commentStatus = this.post.commentStatus;
+        this.fetchComments();
+        this.incrementViews();
+        this.fetchLike();
+        this.dateFilter();
+        this.isLoginUser();
+        this.isLoading = false;
+      } catch (error) {
+        this.$router.push('/not-found');
+      }
     },
     async deletePost() {
       const tf = confirm('게시글을 삭제하시겠습니까?');
@@ -130,25 +134,45 @@ export default {
       }
     },
     async fetchComments() {
-      const { data } = await fetchComments(this.postId);
-      this.comments = data;
+      try {
+        const { data } = await fetchComments(this.postId);
+        this.comments = data;
+      } catch (error) {
+        this.$router.push('/not-found');
+      }
     },
     async incrementViews() {
-      await incrementViews(this.postId);
+      try {
+        await incrementViews(this.postId);
+      } catch (error) {
+        console.log(error);
+      }
     },
     async fetchLike() {
-      const response = await fetchLike(this.postId, this.account.nickName);
-      this.likeStatus = response.data.result;
+      try {
+        const response = await fetchLike(this.postId, this.account.nickName);
+        this.likeStatus = response.data.result;
+      } catch (error) {
+        console.log(error);
+      }
     },
     async addLike() {
-      const accountInfo = {
-        username: this.account.username,
-        nickName: this.account.nickName,
-      };
-      await addLike(this.postId, accountInfo);
+      try {
+        const accountInfo = {
+          username: this.account.username,
+          nickName: this.account.nickName,
+        };
+        await addLike(this.postId, accountInfo);
+      } catch (error) {
+        console.log(error);
+      }
     },
     async deleteLike() {
-      await deleteLike(this.postId, this.account.nickName);
+      try {
+        await deleteLike(this.postId, this.account.nickName);
+      } catch (error) {
+        console.log(error);
+      }
     },
     changeLikeStatus() {
       if (this.likeStatus === true) {

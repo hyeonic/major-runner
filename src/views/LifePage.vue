@@ -75,6 +75,7 @@ export default {
 .sub-category-link {
   display: inline-block;
   padding: 0.5rem;
+  text-align: center;
   color: #2699fb;
   width: 100%;
   height: 100%;

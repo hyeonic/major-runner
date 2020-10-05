@@ -62,9 +62,9 @@ const router = new VueRouter({
     {
       path: '/post/:categoryName/add',
       component: () => import('@/views/PostAddPage.vue'),
-      //   meta: {
-      //     auth: true,
-      //   },
+      meta: {
+        auth: true,
+      },
     },
     {
       path: '/post/edit/:id',
