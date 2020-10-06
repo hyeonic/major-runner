@@ -5,9 +5,7 @@
       <div class="title">
         {{ category.categoryName }} - {{ category.subCategoryName }} 게시판
       </div>
-      <router-link
-        class="create-button"
-        :to="`/post/${category.categoryName}/add`"
+      <router-link class="create-button" :to="`/post/${category.id}/add`"
         ><font-awesome-icon :icon="['fas', 'pen']" :style="{ color: '#2699fb' }"
       /></router-link>
     </div>

@@ -16,10 +16,10 @@
           v-model="contents"
           placeholder="내용을 입력하세요"
         />
-        <p class="validation-text" v-if="!isContentsValid">
-          Contents must be less then 200
-        </p>
       </div>
+      <p class="validation-text" v-if="!isContentsValid">
+        Contents must be less then 300
+      </p>
       <select class="selection" v-model="category">
         <option disabled value="">카테고리를 골라주세요!</option>
         <option
@@ -54,6 +54,7 @@ import { createPost } from '@/api/posts.js';
 export default {
   data() {
     return {
+      categoryId: '',
       title: '',
       contents: '',
       uesrname: '',
@@ -67,10 +68,11 @@ export default {
   },
   computed: {
     isContentsValid() {
-      return this.contents.length <= 200;
+      return this.contents.length <= 300;
     },
   },
   created() {
+    this.categoryId = this.$route.params.categoryId;
     const userInfo = this.$store.getters.fetchedUserInfo;
     this.username = userInfo.username;
     this.nickName = userInfo.nickName;
@@ -108,6 +110,11 @@ export default {
       const { data } = await fetchAllCategories();
       this.isLoading = false;
       this.categories = data;
+      this.category = this.categories.find(category => {
+        if (category.id == this.categoryId) {
+          return category;
+        }
+      });
     },
   },
   components: {
@@ -170,6 +177,11 @@ select {
 
 select:focus {
   outline: none;
+}
+
+.validation-text {
+  text-align: center;
+  color: crimson;
 }
 
 .comment {

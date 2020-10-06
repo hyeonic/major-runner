@@ -18,17 +18,22 @@ export default new Vuex.Store({
     username: getUserFromCookie() || '',
     nickName: getNickNameFromCookie() || '',
     token: getAuthFromCookie() || '',
+    selectCategories: [],
   },
   getters: {
     fetchedUserInfo(state) {
       const userInfo = {
         username: state.username,
         nickName: state.nickName,
+        password: '',
       };
       return userInfo;
     },
     isLogin(state) {
       return state.username !== '';
+    },
+    fetchedSelectCategories(state) {
+      return state.selectCategories;
     },
   },
   mutations: {
@@ -49,6 +54,9 @@ export default new Vuex.Store({
     },
     clearNickName(state) {
       state.nickName = '';
+    },
+    selectCategories(state, selectCategories) {
+      state.selectCategories = selectCategories;
     },
   },
   actions: {

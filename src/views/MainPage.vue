@@ -10,7 +10,21 @@
         />
       </div>
       <div class="choise-category-section">
-        <ul v-if="categories.length !== 0"></ul>
+        <ul v-if="categories.length !== 0">
+          <li
+            class="li-category"
+            v-for="(category, index) in categories"
+            :key="index"
+          >
+            <router-link
+              :to="
+                `/category/${categoryMap[category.categoryName]}/${category.id}`
+              "
+            >
+              {{ category.categoryName }} / {{ category.subCategoryName }}
+            </router-link>
+          </li>
+        </ul>
         <div v-else>
           {{ categoryMessage }}
         </div>
@@ -30,6 +44,14 @@ export default {
       accountInfo: {},
       categoryMessage: '',
       categories: [],
+      categoryMap: {
+        전공: 'major',
+        취업: 'employment',
+        스터디: 'study',
+        생활정보: 'life',
+        시사이슈: 'issue',
+        오늘뭐하지: 'today',
+      },
     };
   },
   created() {
@@ -39,14 +61,14 @@ export default {
     async fetchAccountInfo() {
       try {
         this.accountInfo = this.$store.getters.fetchedUserInfo;
-        if (this.accountInfo === undefined) {
+        if (this.accountInfo.nickName === '') {
           this.categoryMessage = '로그인 후 이용하세요!';
         } else if (this.accountInfo !== undefined) {
           const { data } = await fetchAccountInfo(this.accountInfo);
           this.categories = data;
+          this.$store.commit('selectCategories', this.categories);
         }
       } catch (error) {
-        // console.log(error);
         this.categoryMessage = '선호하는 카테고리를 선택하세요!';
       }
     },
@@ -76,7 +98,7 @@ export default {
   margin-left: auto;
 }
 
-/* .choise-category-header > svg :hover {
-  color: whitesmoke;
-} */
+.li-category > a {
+  color: #2699fb;
+}
 </style>

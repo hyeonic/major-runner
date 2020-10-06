@@ -60,7 +60,7 @@ const router = new VueRouter({
       component: () => import('@/views/PostPage.vue'),
     },
     {
-      path: '/post/:categoryName/add',
+      path: '/post/:categoryId/add',
       component: () => import('@/views/PostAddPage.vue'),
       meta: {
         auth: true,
