@@ -65,7 +65,7 @@ export default {
 }
 
 .category-list {
-  border: 1px solid #ccc;
+  border: 1px solid #f1f9ff;
   font-size: 1rem;
   border-radius: 20px;
   margin: 0.5rem 0;

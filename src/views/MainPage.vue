@@ -90,7 +90,7 @@ export default {
 <style scoped>
 .choise-category {
   color: #2699fb;
-  border: 1px solid #ccc;
+  border: 1px solid #f1f9ff;
   padding: 1rem;
   border-radius: 20px;
   margin-bottom: 1rem;
@@ -113,7 +113,7 @@ export default {
 
 .best-post {
   color: #2699fb;
-  border: 1px solid #ccc;
+  border: 1px solid #f1f9ff;
   padding: 1rem;
   border-radius: 20px;
 }

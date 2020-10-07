@@ -2,11 +2,23 @@
   <footer>
     <div class="footer-nav">
       <ul>
-        <li>sign in</li>
+        <li>
+          <router-link to="/login">
+            sign in
+          </router-link>
+        </li>
         |
-        <li>site map</li>
+        <li>
+          <router-link to="/site-map">
+            site map
+          </router-link>
+        </li>
         |
-        <li>Introduction</li>
+        <li>
+          <router-link to="/introdution">
+            Introdution
+          </router-link>
+        </li>
       </ul>
     </div>
     <div class="logo">MajorRunner</div>
@@ -42,5 +54,9 @@ ul > li {
   color: #2d76c9;
   font-family: Berlin Sans FB;
   margin: 1rem 0;
+}
+
+a {
+  color: #2699fb;
 }
 </style>
