@@ -33,14 +33,17 @@
     </div>
 
     <div class="best-post">
-      <div class="best-post-header">
-        <span>실시간 인기글</span>
-      </div>
+      <best-category-list-item
+        v-for="(category, index) in categories"
+        :key="index"
+        :category="category"
+      ></best-category-list-item>
     </div>
   </div>
 </template>
 
 <script>
+import BestCategoryListItem from '@/components/list/BestCategoryListItem.vue';
 import { fetchAccountInfo } from '@/api/accountInfo.js';
 
 export default {
@@ -84,6 +87,9 @@ export default {
       this.$router.push('/user/category/add');
     },
   },
+  components: {
+    BestCategoryListItem,
+  },
 };
 </script>
 
@@ -109,13 +115,6 @@ export default {
 
 .li-category > a {
   color: #2699fb;
-}
-
-.best-post {
-  color: #2699fb;
-  border: 1px solid #f1f9ff;
-  padding: 1rem;
-  border-radius: 20px;
 }
 
 .best-post-header {
