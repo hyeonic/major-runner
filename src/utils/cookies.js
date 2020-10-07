@@ -1,5 +1,5 @@
 function saveAuthToCookie(value) {
-  document.cookie = `mr_auth=${value}`;
+  document.cookie = `mr_auth=Bearer ${value}`;
 }
 
 function saveUserToCookie(value) {

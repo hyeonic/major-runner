@@ -43,7 +43,7 @@ export default {
 .post-li {
   margin: 0.5rem 0;
   padding: 0.5rem 0;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid #f1f9ff;
 }
 
 .post-title {

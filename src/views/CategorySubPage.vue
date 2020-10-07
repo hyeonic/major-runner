@@ -17,6 +17,18 @@
         @refresh="fetchPosts"
       ></post-list-item>
     </ul>
+    <div class="footer">
+      <button @click="decrementPage" :disabled="pageble.page === 0">
+        이전
+      </button>
+      <div>{{ pageble.page + 1 }} / {{ totalPages }}</div>
+      <button
+        @click="incrementPage"
+        :disabled="pageble.page === totalPages - 1"
+      >
+        다음
+      </button>
+    </div>
   </div>
 </template>
 
@@ -32,6 +44,12 @@ export default {
       categoryId: '',
       category: {},
       posts: [],
+      pageble: {
+        page: 0,
+        size: 10,
+        sort: 'createdAt',
+      },
+      totalPages: 0,
       isLoading: false,
     };
   },
@@ -50,12 +68,18 @@ export default {
     async fetchPosts() {
       this.isLoading = true;
       this.categoryId = this.$route.params.categoryId;
-      const { data } = await fetchPosts(this.categoryId, {
-        page: 0,
-        size: 10,
-        sort: 'createdAt',
-      });
+      const { data } = await fetchPosts(this.categoryId, this.pageble);
+      this.totalPages = data.totalPages;
       this.posts = data.content;
+      this.isLoading = false;
+    },
+    incrementPage() {
+      this.pageble.page += 1;
+      this.fetchPosts();
+    },
+    decrementPage() {
+      this.pageble.page -= 1;
+      this.fetchPosts();
     },
   },
   components: {
@@ -76,5 +100,26 @@ export default {
 .create-button {
   float: right;
   font-size: 1.5rem;
+}
+
+.footer {
+  display: flex;
+  margin: 1rem 0;
+}
+
+.footer > button {
+  flex: 3;
+  border: 1px solid #f1f9ff;
+  border-radius: 20px;
+  padding: 0.5rem;
+  color: #2d76c9;
+  font-weight: bold;
+}
+
+.footer > div {
+  flex: 3;
+  color: #2d76c9;
+  margin: auto 0;
+  text-align: center;
 }
 </style>

@@ -130,7 +130,7 @@ export default {
       const tf = confirm('게시글을 삭제하시겠습니까?');
       if (tf === true) {
         await deletePost(this.postId);
-        this.$router.push('/main');
+        this.$router.back();
       }
     },
     async fetchComments() {

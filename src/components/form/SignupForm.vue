@@ -33,7 +33,9 @@
       {{ logMessage }}
     </div>
     <div class="button-wrap">
-      <button type="submit">Let's run with us!</button>
+      <button type="submit">
+        Let's run with us!
+      </button>
     </div>
   </form>
 </template>
@@ -61,12 +63,27 @@ export default {
   },
   methods: {
     async submitForm() {
+      const userData = {
+        username: this.username,
+        password: this.password,
+        nickName: this.nickName,
+      };
+
+      if (!this.isUserNameValid) {
+        this.logMessage = ' email 형식으로 기입하세요.';
+      }
+
+      if (this.password === '') {
+        this.logMessage = '비밀번호를 입력하세요.';
+        return;
+      }
+
+      if (this.nickName === '') {
+        this.logMessage = '닉네임을 입력하세요.';
+        return;
+      }
+
       try {
-        const userData = {
-          username: this.username,
-          password: this.password,
-          nickName: this.nickName,
-        };
         const { data } = await registerUser(userData);
         this.logMessage = `${data.username}님이 가입되었습니다.`;
         this.$router.push('/main');
@@ -111,7 +128,7 @@ export default {
 .log-message {
   text-align: center;
   padding: 1rem;
-  color: #2699fb;
+  color: crimson;
 }
 
 .button-wrap {

@@ -4,7 +4,7 @@
       class="input-search"
       type="text"
       v-model="searchData"
-      placeholder="무엇이든 물어봐!"
+      placeholder="게시글 검색"
     />
     <span>
       <template v-if="searchData.length > 0">

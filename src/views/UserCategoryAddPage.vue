@@ -30,14 +30,17 @@ import { createAccountInfo } from '@/api/accountInfo.js';
 export default {
   data() {
     return {
+      account: {},
       selectCategories: [],
     };
   },
-  created() {},
+  created() {
+    this.account = this.$store.getters.fetchedUserInfo;
+  },
   methods: {
     async createAccountInfo() {
       const accountInfo = {
-        account: this.$store.getters.fetchedUserInfo,
+        account: this.account,
         categories: this.selectCategories,
       };
       await createAccountInfo(accountInfo);
@@ -52,6 +55,7 @@ export default {
           isDone = false;
         }
       }
+
       if (isDone) {
         this.selectCategories.push(category);
       }

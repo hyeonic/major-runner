@@ -18,7 +18,7 @@
         />
       </div>
       <p class="validation-text" v-if="!isContentsValid">
-        Contents must be less then 300
+        Contents must be less then 200
       </p>
       <select class="selection" v-model="category">
         <option disabled value="">카테고리를 골라주세요!</option>
@@ -68,7 +68,7 @@ export default {
   },
   computed: {
     isContentsValid() {
-      return this.contents.length <= 300;
+      return this.contents.length <= 200;
     },
   },
   created() {
@@ -100,7 +100,8 @@ export default {
       };
       try {
         await createPost(post);
-        this.$router.push('/main');
+        // this.$router.push('/main');
+        this.$router.back();
       } catch (error) {
         console.log(error);
       }

@@ -21,7 +21,8 @@
                 `/category/${categoryMap[category.categoryName]}/${category.id}`
               "
             >
-              {{ category.categoryName }} / {{ category.subCategoryName }}
+              {{ category.categoryName }} /
+              {{ category.subCategoryName }}
             </router-link>
           </li>
         </ul>
@@ -31,7 +32,11 @@
       </div>
     </div>
 
-    <br />
+    <div class="best-post">
+      <div class="best-post-header">
+        <span>실시간 인기글</span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -66,10 +71,13 @@ export default {
         } else if (this.accountInfo !== undefined) {
           const { data } = await fetchAccountInfo(this.accountInfo);
           this.categories = data;
+          if (this.categories.length === 0) {
+            this.categoryMessage = '선호하는 카테고리를 선택하세요!';
+          }
           this.$store.commit('selectCategories', this.categories);
         }
       } catch (error) {
-        this.categoryMessage = '선호하는 카테고리를 선택하세요!';
+        this.categoryMessage = '서버와의 연결이 불안정 합니다!';
       }
     },
     selectCategories() {
@@ -85,6 +93,7 @@ export default {
   border: 1px solid #ccc;
   padding: 1rem;
   border-radius: 20px;
+  margin-bottom: 1rem;
 }
 
 .choise-category-header {
@@ -100,5 +109,19 @@ export default {
 
 .li-category > a {
   color: #2699fb;
+}
+
+.best-post {
+  color: #2699fb;
+  border: 1px solid #ccc;
+  padding: 1rem;
+  border-radius: 20px;
+}
+
+.best-post-header {
+  color: #2d76c9;
+  font-weight: bold;
+  padding: 0 0 0.5rem 0;
+  display: flex;
 }
 </style>

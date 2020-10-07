@@ -89,7 +89,6 @@ export default {
     },
     async fetchPost() {
       const { data } = await fetchPost(this.postId);
-      console.log(data);
       this.title = data.title;
       this.contents = data.contents;
     },
