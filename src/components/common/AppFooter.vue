@@ -3,16 +3,15 @@
     <div class="footer-nav">
       <ul>
         <li>
-          <router-link to="/login">
+          <router-link
+            to="/login"
+            v-if="$store.getters.fetchedUserInfo.nickName === ''"
+          >
             sign in
           </router-link>
+          <router-link to="/user-info" v-else> user info </router-link>
         </li>
-        |
-        <li>
-          <router-link to="/site-map">
-            site map
-          </router-link>
-        </li>
+
         |
         <li>
           <router-link to="/introdution">

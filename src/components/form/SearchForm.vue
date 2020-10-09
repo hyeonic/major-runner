@@ -1,5 +1,5 @@
 <template>
-  <form id="search-bar" @submit="submitForm">
+  <form id="search-bar" @submit.prevent="submitForm">
     <input
       class="input-search"
       type="text"
@@ -27,7 +27,11 @@ export default {
   },
   methods: {
     submitForm() {
-      this.$router.push(`/search/${this.searchData}`);
+      this.$router.push(`/search/${this.searchData}`).catch(error => {
+        if (error.name === 'NavigationDuplicated') {
+          this.$router.go(this.$router.currentRoute);
+        }
+      });
     },
     initForm() {
       this.searchData = '';

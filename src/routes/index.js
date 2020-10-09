@@ -92,6 +92,10 @@ const router = new VueRouter({
       },
     },
     {
+      path: '/introdution',
+      component: () => import('@/views/Introdution.vue'),
+    },
+    {
       path: '*',
       component: () => import('@/views/NotFoundPage.vue'),
     },

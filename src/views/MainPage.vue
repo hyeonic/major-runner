@@ -1,5 +1,7 @@
 <template>
   <div id="wrap">
+    <itrodution v-if="accountInfo.nickName === ''"></itrodution>
+    <br />
     <div class="choise-category">
       <div class="choise-category-header">
         <span>관심 카테고리</span>
@@ -43,6 +45,7 @@
 </template>
 
 <script>
+import Itrodution from '@/views/Introdution.vue';
 import BestCategoryListItem from '@/components/list/BestCategoryListItem.vue';
 import { fetchAccountInfo } from '@/api/accountInfo.js';
 
@@ -88,6 +91,7 @@ export default {
     },
   },
   components: {
+    Itrodution,
     BestCategoryListItem,
   },
 };

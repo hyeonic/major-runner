@@ -1,5 +1,12 @@
 <template>
   <div id="login-container">
+    <div class="back-icon">
+      <font-awesome-icon
+        @click="$router.back()"
+        :icon="['fas', 'arrow-left']"
+        :style="{ color: 'whitesmoke' }"
+      />
+    </div>
     <div class="login-header">
       <div class="logo">
         <router-link to="/main">MajorRunner</router-link>
@@ -31,6 +38,11 @@ export default {
   background-color: white;
   display: flex;
   flex-direction: column;
+}
+
+.back-icon {
+  padding: 0.5rem;
+  background-color: #2699fb;
 }
 
 .login-header {
