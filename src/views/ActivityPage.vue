@@ -77,6 +77,7 @@ export default {
   padding: 0.5rem;
   text-align: center;
   color: #2699fb;
+  font-weight: bold;
   width: 100%;
   height: 100%;
 }

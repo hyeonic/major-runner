@@ -1,6 +1,13 @@
 <template>
   <div id="wrap">
     <loading-spinner v-if="isLoading"></loading-spinner>
+    <div class="back-icon">
+      <font-awesome-icon
+        @click="$router.back()"
+        :icon="['fas', 'arrow-left']"
+        :style="{ color: '#2699fb' }"
+      />
+    </div>
     <form id="form" @submit.prevent="submitForm">
       <div class="item">
         <input
@@ -125,6 +132,10 @@ export default {
 </script>
 
 <style scoped>
+#wrap {
+  padding: 1rem;
+}
+
 .title {
   text-align: center;
 }
@@ -137,8 +148,6 @@ export default {
   width: 100%;
   margin: 0.5rem 0;
   padding: 0.5rem 0;
-  border: 1px solid #2699fb;
-  border-radius: 20px;
 }
 
 .item > input {

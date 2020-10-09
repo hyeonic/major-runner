@@ -48,6 +48,7 @@ export default {
 
 .post-title {
   font-size: 1rem;
+  font-weight: 600;
 }
 
 .post-created {
@@ -65,6 +66,6 @@ export default {
 }
 
 a {
-  color: #2d76c9;
+  color: black;
 }
 </style>

@@ -1,6 +1,13 @@
 <template>
   <div id="wrap">
     <loading-spinner v-if="isLoading"></loading-spinner>
+    <div class="back-icon">
+      <font-awesome-icon
+        @click="$router.back()"
+        :icon="['fas', 'arrow-left']"
+        :style="{ color: '#2699fb' }"
+      />
+    </div>
     <form id="form" @submit.prevent="submitForm">
       <div class="item">
         <input
@@ -18,7 +25,7 @@
         />
       </div>
       <p class="validation-text" v-if="!isContentsValid">
-        Contents must be less then 200
+        200자 이하로 작성해주세요.
       </p>
       <select class="selection" v-model="category">
         <option disabled value="">카테고리를 골라주세요!</option>
@@ -125,6 +132,10 @@ export default {
 </script>
 
 <style scoped>
+#wrap {
+  padding: 1rem;
+}
+
 .title {
   text-align: center;
 }
@@ -137,8 +148,6 @@ export default {
   width: 100%;
   margin: 0.5rem 0;
   padding: 0.5rem 0;
-  border: 1px solid #2699fb;
-  border-radius: 20px;
 }
 
 .item > input {
@@ -155,13 +164,6 @@ export default {
   max-width: 100%;
   padding: 0.5rem;
 }
-
-/* textarea,
-input {
-  margin: 0.5rem 0;
-  border: 2px solid #2699fb;
-  border-radius: 20px;
-} */
 
 textarea:focus,
 input:focus {

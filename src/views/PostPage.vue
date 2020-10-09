@@ -95,6 +95,7 @@ export default {
       postId: '',
       post: {},
       account: {},
+      visitant: {},
       comments: [],
       commentStatus: '',
       postAuth: false,
@@ -116,6 +117,7 @@ export default {
         this.post = data;
         this.account = this.post.account;
         this.commentStatus = this.post.commentStatus;
+        this.visitant = this.$store.getters.fetchedUserInfo;
         this.fetchComments();
         this.incrementViews();
         this.fetchLike();
@@ -150,7 +152,7 @@ export default {
     },
     async fetchLike() {
       try {
-        const response = await fetchLike(this.postId, this.account.nickName);
+        const response = await fetchLike(this.postId, this.visitant.nickName);
         this.likeStatus = response.data.result;
       } catch (error) {
         console.log(error);
@@ -159,8 +161,8 @@ export default {
     async addLike() {
       try {
         const accountInfo = {
-          username: this.account.username,
-          nickName: this.account.nickName,
+          username: this.visitant.username,
+          nickName: this.visitant.nickName,
         };
         await addLike(this.postId, accountInfo);
       } catch (error) {
@@ -169,7 +171,7 @@ export default {
     },
     async deleteLike() {
       try {
-        await deleteLike(this.postId, this.account.nickName);
+        await deleteLike(this.postId, this.visitant.nickName);
       } catch (error) {
         console.log(error);
       }
