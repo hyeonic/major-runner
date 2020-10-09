@@ -1,8 +1,18 @@
 <template>
   <div id="wrap">
     <loading-spinner v-if="isLoading"></loading-spinner>
-    <div v-else>
+    <div class="list-header" v-else>
       <div class="title">실시간 {{ title }} Top 10</div>
+      <div class="move-category">
+        <router-link
+          :to="`/category/${categoryMap[category.categoryName]}/${category.id}`"
+        >
+          <font-awesome-icon
+            :icon="['fas', 'arrow-right']"
+            :style="{ color: '#2699fb' }"
+          />
+        </router-link>
+      </div>
     </div>
     <div class="section">
       <ul>
@@ -30,6 +40,14 @@ export default {
         page: 0,
         size: 10,
         sort: 'views,createdAt',
+      },
+      categoryMap: {
+        전공: 'major',
+        취업: 'employment',
+        스터디: 'study',
+        생활정보: 'life',
+        시사이슈: 'issue',
+        오늘뭐하지: 'today',
       },
       isLoading: false,
     };
@@ -75,8 +93,16 @@ export default {
   margin-bottom: 1rem;
 }
 
+.list-header {
+  display: flex;
+}
+
 .title {
   color: #2d76c9;
   font-weight: bolder;
+}
+
+.move-category {
+  margin-left: auto;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <form id="search-bar">
+  <form id="search-bar" @submit="submitForm">
     <input
       class="input-search"
       type="text"
@@ -26,6 +26,9 @@ export default {
     };
   },
   methods: {
+    submitForm() {
+      this.$router.push(`/search/${this.searchData}`);
+    },
     initForm() {
       this.searchData = '';
     },

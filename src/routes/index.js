@@ -24,6 +24,10 @@ const router = new VueRouter({
       component: () => import('@/views/SignupPage.vue'),
     },
     {
+      path: '/search/:title',
+      component: () => import('@/views/PostSearchPage.vue'),
+    },
+    {
       path: '/category/major',
       component: () => import('@/views/MajorPage.vue'),
     },

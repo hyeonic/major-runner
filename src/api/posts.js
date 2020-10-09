@@ -1,6 +1,13 @@
 import { posts } from './index.js';
 
-// category별 posts 목록 조회 API -> paging을 위한 param 삽임 예정
+// post를 검색하기 위한 API
+function searchPosts(title, pageble) {
+  return posts.get(
+    `/search/${title}?page=${pageble.page}&size=${pageble.size}&sort=${pageble.sort},DESC`,
+  );
+}
+
+// category별 posts 목록 조회 API
 function fetchPosts(categoryId, pageble) {
   return posts.get(
     `/category/${categoryId}?page=${pageble.page}&size=${pageble.size}&sort=${pageble.sort},DESC`,
@@ -53,6 +60,7 @@ function deleteLike(postId, username) {
 }
 
 export {
+  searchPosts,
   fetchPosts,
   fetchPost,
   createPost,

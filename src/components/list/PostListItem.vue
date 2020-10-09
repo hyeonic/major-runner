@@ -7,7 +7,7 @@
       </div>
       <div class="post-footer">
         <span class="post-user">{{ account.nickName }}</span>
-        <span class="post-created">{{ post.updatedAt | formatDate }}</span>
+        <span class="post-created">{{ changeDate() }}</span>
       </div>
     </router-link>
   </li>
@@ -15,6 +15,7 @@
 
 <script>
 import { fetchPost } from '@/api/posts.js';
+import { formatDate } from '@/utils/filters.js';
 export default {
   props: {
     post: {
@@ -34,6 +35,13 @@ export default {
     async fetchPost() {
       const { data } = await fetchPost(this.post.id);
       this.account = data.account;
+    },
+    changeDate() {
+      if (Array.isArray(this.post.updatedAt)) {
+        return formatDate(this.post.updatedAt);
+      } else {
+        return this.post.updatedAt;
+      }
     },
   },
 };
